@@ -17,6 +17,6 @@
 # Ethan Henderson
 # ethan.henderson.1998@gmail.com
 
-from .config import Config
-from .constants import *
-from .discord import Bot
+from .error import ErrorHandler
+from .presence import PresenceUpdater
+from .ready import ReadyStatusTracker
