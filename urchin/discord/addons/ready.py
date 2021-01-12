@@ -17,6 +17,22 @@
 # Ethan Henderson
 # ethan.henderson.1998@gmail.com
 
-from .config import Config
-from .constants import *
-from .discord import Bot
+from discord.ext import commands
+
+
+class ReadyStatusTracker:
+    def __init__(self, bot: commands.Bot) -> None:
+        super().__init__()
+        self.bot = bot
+        self.booted = False
+
+        for ext in self.bot.extensions:
+            setattr(self, ext, False)
+
+    def extension(self, cog: commands.Cog) -> None:
+        setattr(self, (qn := cog.qualified_name.lower()), True)
+        print(f" `{qn}` extension ready.")
+
+    @property
+    def fully(self) -> bool:
+        return self.booted and all(getattr(self, ext) for ext in self.bot.extensions)
